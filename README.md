@@ -1,2 +1,2 @@
 # mapaInteractivo
-Aplicacion web de mapa interactivo
+Es una aplicacion we con un login completamente funcional y un mapa mundi interactivo con distintas funcionalidades.
