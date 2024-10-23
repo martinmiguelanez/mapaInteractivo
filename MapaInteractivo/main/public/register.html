@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Europe_blank_laea_location_map.svg/1920px-Europe_blank_laea_location_map.svg.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .register-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .register-container h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-family: 'Arial', sans-serif;
+            color: #8470FF;
+        }
+
+        .form-control {
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 12px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #8470FF;
+            box-shadow: 0 0 5px rgba(132, 112, 255, 0.5);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group-text {
+            background-color: #8470FF;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px 0 0 5px;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: #8470FF;
+            border: none;
+            color: #ffffff;
+            width: 100%;
+            padding: 10px;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .btn-primary:hover {
+            background-color: #6b5fae;
+        }
+
+        .login-link {
+            text-align: center;
+            display: block;
+            margin-top: 20px;
+        }
+
+        .toggle-password {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="register-container">
+        <h1>Crear Cuenta</h1>
+        <div id="alertContainer"></div> <!-- Contenedor para alertas -->
+        <form id="registerForm" action="/register" method="POST">
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Nombre de usuario" required>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                <input type="email" id="email" name="email" class="form-control" placeholder="Correo electrónico" required>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" required>
+                <span class="input-group-text toggle-password" id="togglePassword"><i class="fas fa-eye"></i></span>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                <input type="text" id="telefono" name="telefono" class="form-control" placeholder="Teléfono (opcional)">
+            </div>
+            <button type="submit" class="btn btn-primary">Registrar</button>
+        </form>
+        <p class="login-link">¿Ya tienes cuenta? <a href="/">Inicia sesión aquí</a></p>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Validación en JavaScript -->
+    <script>
+
+document.getElementById('registerForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const telefono = document.getElementById('telefono').value;
+
+            // Validar el nombre de usuario (al menos 3 caracteres)
+            if (username.length < 3) {
+                showAlert('El nombre de usuario debe tener al menos 3 caracteres', 'danger');
+                return;
+            }
+
+            // Validar formato de email
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                showAlert('Introduce un correo electrónico válido', 'danger');
+                return;
+            }
+
+            // Validar la contraseña (al menos 8 caracteres, 1 mayúscula, 1 minúscula, 1 número, 1 carácter especial)
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+            if (!passwordPattern.test(password)) {
+                showAlert('La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas, números y caracteres especiales.', 'danger');
+                return;
+            }
+
+            // Validar el teléfono (opcional, pero si se ingresa debe tener formato válido)
+            const telefonoPattern = /^\d{9,15}$/;
+            if (telefono && !telefonoPattern.test(telefono)) {
+                showAlert('Introduce un número de teléfono válido (9-15 dígitos)', 'danger');
+                return;
+            }
+
+            // Enviar los datos usando fetch API
+            fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    username: username,
+                    email: email,
+                    password: password,
+                    telefono: telefono
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    // Si hay un error (usuario ya existente), mostrar la alerta
+                    showAlert(data.error, 'danger');
+                } else {
+                    // Almacenar el user_id en localStorage si el registro fue exitoso
+                    localStorage.setItem('user_id', data.user_id);
+
+                    // Mostrar un mensaje de éxito y redirigir
+                    showAlert('Registro exitoso. Redirigiendo...', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/main'; // Redirigir a la página principal
+                    }, 2000);
+                }
+            })
+            .catch(error => {
+                console.error('Error en la solicitud:', error);
+                showAlert('Error al registrar el usuario. Inténtalo de nuevo.', 'danger');
+            });
+        });
+
+        // Función para mostrar mensajes de alerta
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.innerText = message;
+            const container = document.getElementById('alertContainer');
+            container.appendChild(alertDiv);
+
+            // Remover la alerta después de 5 segundos
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        // Función para mostrar/ocultar la contraseña
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.querySelector('i').classList.toggle('fa-eye');
+            this.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
+
+
+                document.getElementById('registerForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const telefono = document.getElementById('telefono').value;
+
+            // Validar el nombre de usuario (al menos 3 caracteres)
+            if (username.length < 3) {
+                showAlert('El nombre de usuario debe tener al menos 3 caracteres', 'danger');
+                return;
+            }
+
+            // Validar formato de email
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                showAlert('Introduce un correo electrónico válido', 'danger');
+                return;
+            }
+
+            // Validar la contraseña (al menos 8 caracteres, 1 mayúscula, 1 minúscula, 1 número, 1 carácter especial)
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+            if (!passwordPattern.test(password)) {
+                showAlert('La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas, números y caracteres especiales.', 'danger');
+                return;
+            }
+
+            // Validar el teléfono (opcional, pero si se ingresa debe tener formato válido)
+            const telefonoPattern = /^\d{9,15}$/;
+            if (telefono && !telefonoPattern.test(telefono)) {
+                showAlert('Introduce un número de teléfono válido (9-15 dígitos)', 'danger');
+                return;
+            }
+
+            // Enviar los datos usando fetch API
+            fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    username: username,
+                    email: email,
+                    password: password,
+                    telefono: telefono
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    // Si hay un error (usuario ya existente), mostrar la alerta
+                    showAlert(data.error, 'danger');
+                } else {
+                    // Si el registro fue exitoso, redirigir a la página principal
+                    showAlert('Registro exitoso. Redirigiendo...', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/main'; // Cambia '/' a '/main'
+                    }, 2000);
+                }
+            })
+            .catch(error => {
+                console.error('Error en la solicitud:', error);
+                showAlert('Error al registrar el usuario. Inténtalo de nuevo.', 'danger');
+            });
+        });
+
+        // Función para mostrar mensajes de alerta
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.innerText = message;
+            const container = document.getElementById('alertContainer');
+            container.appendChild(alertDiv);
+
+            // Remover la alerta después de 5 segundos
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        // Función para mostrar/ocultar la contraseña
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.querySelector('i').classList.toggle('fa-eye');
+            this.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+
+
+
+        */
+    </script>
+</body>
+
+</html>
