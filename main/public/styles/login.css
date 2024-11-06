@@ -1,0 +1,84 @@
+body {
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Europe_blank_laea_location_map.svg/1920px-Europe_blank_laea_location_map.svg.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+}
+
+.login-container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-family: 'Arial', sans-serif;
+    color: #8470FF;
+}
+
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #8470FF;
+    box-shadow: 0 0 5px rgba(132, 112, 255, 0.5);
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group-text {
+    background-color: #8470FF;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background-color: #8470FF;
+    border: none;
+    color: #ffffff;
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1rem;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.btn-primary:hover {
+    background-color: #6b5fae;
+}
+
+.register-link {
+    text-align: center;
+    display: block;
+    margin-top: 20px;
+}
+
+.alert {
+    margin-top: 20px;
+}
+
+.toggle-password {
+    cursor: pointer;
+}

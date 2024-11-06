@@ -1,0 +1,248 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow-x: hidden;
+    background-color: rgb(39, 44, 67);
+    font-family: Arial, sans-serif;
+}
+
+#name {
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    width: fit-content;
+    opacity: 0;
+    border-radius: 5px;
+    border: 3px solid rgb(245, 128, 128);
+    padding: 0px 5px;
+    font-size: 1.5rem;
+}
+
+#timeCont {
+    background-color: white;
+    width: fit-content;
+    font-size: 1.5rem;
+    padding: 5px 5px;
+    border-radius: 5px;
+    border: 3px solid rgb(245, 128, 128);        
+}
+
+svg path {
+    cursor: pointer;
+}
+
+/*   AVATAR CONTAINER   */
+.avatar-container {
+    position: fixed; /* Posicionarlo en la esquina superior izquierda */
+    top: 20px; /* Ajusta el espacio desde la parte superior */
+    left: 20px; /* Ajusta el espacio desde la izquierda */
+    z-index: 1; /* Asegura que el icono esté detrás del menú */
+}
+
+.avatar {
+    font-size: 25px; /* Tamaño del icono más pequeño */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+    color: #ffffff; /* Color del icono */
+    background-color: #8470FF; /* Color de fondo del icono, usando el color de tu estilo */
+    border-radius: 50%; /* Hace que el icono sea redondeado */
+    padding: 10px; /* Espaciado alrededor del icono */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Sombra para resaltar el icono */
+    transition: background-color 0.3s; /* Transición suave al cambiar de color */
+}
+
+.avatar:hover {
+    background-color: #6b5fae; /* Color al pasar el ratón */
+}
+
+.sidebar {
+    position: fixed; /* Posición fija para el menú lateral */
+    left: -250px; /* Inicialmente oculto fuera de la pantalla */
+    top: 0; /* Desde la parte superior */
+    height: 100%; /* Altura completa */
+    width: 250px; /* Ancho del menú */
+    background-color: #ffffff; /* Fondo blanco para coincidir con el formulario */
+    color: #333; /* Color del texto oscuro para buena legibilidad */
+    transition: left 0.3s ease; /* Transición suave */
+    z-index: 1000; /* Asegura que esté encima de otros elementos */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* Sombra para el menú lateral */
+}
+
+.sidebar-content {
+    padding: 20px; /* Espacio interior */
+}
+
+.sidebar-title {
+    font-size: 1.5rem; /* Tamaño del título */
+    color: #8470FF; /* Color del título */
+    margin-bottom: 20px; /* Espacio debajo del título */
+    text-align: center; /* Centrar el título */
+}
+
+.sidebar ul {
+    list-style-type: none; /* Sin viñetas */
+    padding: 0; /* Sin padding */
+}
+
+.sidebar li {
+    margin: 15px 0; /* Margen entre elementos */
+    display: flex; /* Flexbox para alinear icono y texto */
+    align-items: center; /* Centra verticalmente los íconos */
+}
+
+.sidebar li i {
+    margin-right: 10px; /* Espacio entre el icono y el texto */
+    font-size: 1.2rem; /* Tamaño del icono más grande */
+    color: #8470FF; /* Color del icono */
+}
+
+.sidebar hr {
+    border: 1px solid rgba(132, 112, 255, 0.3); /* Línea horizontal elegante */
+    margin: 10px 0; /* Margen arriba y abajo de la línea */
+}
+
+.sidebar a {
+    color: #333; /* Color de los enlaces oscuros para buena legibilidad */
+    text-decoration: none; /* Sin subrayado */
+    font-size: 1rem; /* Tamaño del texto del enlace */
+}
+
+.sidebar a:hover {
+    text-decoration: underline; /* Subrayado al pasar el ratón */
+    color: #8470FF; /* Color del texto al pasar el ratón */
+}
+
+
+
+
+
+/*   MODAL   */
+.modal {
+    display: none;
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.5); 
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto; 
+    padding: 30px; /* Aumentar el padding del modal */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 80%; 
+    max-width: 600px; /* Aumentar el ancho máximo del modal */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#modal-country {
+    text-align: center; /* Centrar el nombre del país */
+    font-size: 24px; /* Aumentar el tamaño de la fuente */
+    margin-bottom: 20px; /* Espacio debajo del título */
+}
+
+.label-switch {
+    display: inline-block;
+    margin-bottom: 20px; /* Mayor espacio debajo de la etiqueta del switch */
+}
+
+.form-group {
+    margin-bottom: 20px; /* Aumentar el espacio entre los campos */
+}
+
+input[type="number"],
+input[type="date"],
+textarea {
+    width: calc(100% - 10px);
+    padding: 10px; /* Aumentar el padding de los campos */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+textarea {
+    resize: none;
+}
+
+.btn {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    padding: 12px 20px; /* Aumentar el padding del botón */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #0b7dda;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}

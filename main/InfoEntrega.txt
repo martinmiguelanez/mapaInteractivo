@@ -1,0 +1,5 @@
+- En esta entrega esta el tanto el login como el register de la aplicación web completamente funcional y con todas las validaciones necesarias.
+
+Esta aplicación se levanta con node.js.
+
+Al pasar el login o el register aparece el mapa mundi donde por el momento esta la interacción al pasar por encima de cada país el ratón(cambia de color y sale el nombre); y por otro lado, al hacer click en un país sale un modal que con un botón switch te permite ponerlo en "país visitado" en la bbdd y se queda de color rojo. Esta parte se esta terminando de pulir por pequeños detalles que le faltan para que funcione perfectamente.
