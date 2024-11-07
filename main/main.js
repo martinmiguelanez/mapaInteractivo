@@ -136,37 +136,32 @@ app.post('/login', async (req, res) => {
 app.post('/update-country', (req, res) => {
     const { user_id, country, visited, qualification, visitDate, note } = req.body;
 
-    // Verifica si el usuario existe
-    connection.query('SELECT * FROM users WHERE id = ?', [user_id], (err, results) => {
+    // Convertir `visited` a un valor numérico (1 o 0)
+    const visitedValue = visited ? 1 : 0;
+
+    // Si se marca como no visitado, no eliminamos los valores de los otros campos
+    // Solo actualizamos la columna 'visited' y mantenemos los demás valores existentes si no se reciben nuevos
+    const sql = `
+        INSERT INTO user_countries (user_id, country, visited, qualification, visitDate, note)
+        VALUES (?, ?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+            visited = VALUES(visited),
+            qualification = IFNULL(VALUES(qualification), qualification),  -- Si no se recibe calificación, no la borramos
+            visitDate = IFNULL(VALUES(visitDate), visitDate),  -- Lo mismo para visitDate
+            note = IFNULL(VALUES(note), note);  -- Y para note
+    `;
+
+    // Ejecutar la consulta con valores específicos
+    connection.query(sql, [user_id, country, visitedValue, qualification, visitDate, note], (err, result) => {
         if (err) {
-            console.error('Error al consultar el usuario:', err);
-            return res.status(500).send({ success: false, message: 'Error en el servidor.' });
+            console.error('Error al actualizar el país:', err);
+            return res.json({ success: false, message: 'Error al actualizar el país en la base de datos' });
         }
 
-        if (results.length === 0) {
-            return res.status(404).send({ success: false, message: 'Usuario no encontrado.' });
-        }
-
-        // Actualizar el estado del país en la base de datos
-        const query = `
-            UPDATE user_countries
-            SET visited = ?,
-                qualification = COALESCE(?, qualification),
-                visitDate = COALESCE(?, visitDate),
-                note = COALESCE(?, note)
-            WHERE user_id = ? AND country = ?`;
-
-        connection.query(query, [visited, qualification, visitDate, note, user_id, country], (err, results) => {
-            if (err) {
-                console.error('Error al actualizar el estado del país en la base de datos:', err);
-                return res.status(500).send({ success: false, message: 'Error al actualizar el estado del país.' });
-            }
-
-            // La actualización se realizó correctamente
-            res.status(200).send({ success: true });
-        });
+        res.json({ success: true, message: 'País actualizado correctamente' });
     });
 });
+
 
 
 
